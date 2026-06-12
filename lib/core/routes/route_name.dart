@@ -8,4 +8,5 @@ class RouteName {
   static const String otpScreen = "/otpScreen";
   static const String profileSetupScreen = "/profileSetupScreen";
   static const String navbarScreen = "/navbarScreen";
+  static const String chatScreen = "/chatScreen";
 }

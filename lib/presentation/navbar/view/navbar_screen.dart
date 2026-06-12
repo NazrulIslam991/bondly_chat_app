@@ -1,11 +1,11 @@
 import 'dart:ui';
 
 import 'package:bondly/core/resources/constant/color_manager.dart';
-import 'package:bondly/presentation/chat/view/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/resources/constant/style_manager.dart';
+import '../../chat/view/chat_list_screen.dart';
 
 class NavbarScreen extends StatefulWidget {
   const NavbarScreen({super.key});
@@ -18,7 +18,7 @@ class _NavbarScreenState extends State<NavbarScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    ChatScreen(),
+    ChatListScreen(),
     const Center(
       child: Text(
         'Groups Screen',

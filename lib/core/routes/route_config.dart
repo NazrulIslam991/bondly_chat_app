@@ -13,6 +13,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => ProfileSetupScreen());
       case RouteName.navbarScreen:
         return MaterialPageRoute(builder: (_) => NavbarScreen());
+      case RouteName.chatScreen:
+        return MaterialPageRoute(builder: (_) => ChatScreen());
       default:
         return unDefineRoute();
     }
