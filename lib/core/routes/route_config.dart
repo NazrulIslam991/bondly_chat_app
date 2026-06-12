@@ -9,6 +9,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case RouteName.otpScreen:
         return MaterialPageRoute(builder: (_) => OtpVerification());
+      case RouteName.profileSetupScreen:
+        return MaterialPageRoute(builder: (_) => ProfileSetupScreen());
+      case RouteName.navbarScreen:
+        return MaterialPageRoute(builder: (_) => NavbarScreen());
       default:
         return unDefineRoute();
     }

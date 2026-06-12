@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/resources/constant/style_manager.dart';
 import '../../core/resources/themes/app_theme.dart';
+import '../../core/routes/route_name.dart';
 
 class OtpVerification extends StatefulWidget {
   const OtpVerification({super.key});
@@ -191,7 +192,11 @@ class _OtpVerificationState extends State<OtpVerification> {
 
   void _verifyOtp() {
     if (_otpController.text.length == _otpLength) {
-      // Navigator.pushNamedAndRemoveUntil(context, RouteName.homeScreen, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        RouteName.profileSetupScreen,
+        (route) => false,
+      );
     }
   }
 }
