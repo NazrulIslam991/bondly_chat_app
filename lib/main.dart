@@ -30,9 +30,7 @@ class MyApp extends ConsumerWidget {
           debugShowCheckedModeBanner: false,
 
           ///  ****** theme code  **********
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: ThemeMode.system,
+          theme: AppTheme.darkTheme,
 
           ///  ****** route code  *********
           onGenerateRoute: AppRouter.getRoute,

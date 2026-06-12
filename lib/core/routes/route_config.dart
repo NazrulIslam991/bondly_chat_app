@@ -4,7 +4,9 @@ class AppRouter {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case RouteName.splashScreen:
-      //return MaterialPageRoute(builder: (_) => SplashScreen());
+        return MaterialPageRoute(builder: (_) => SplashScreen());
+      case RouteName.loginScreen:
+        return MaterialPageRoute(builder: (_) => LoginScreen());
       default:
         return unDefineRoute();
     }

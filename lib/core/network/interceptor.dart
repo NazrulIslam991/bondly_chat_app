@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 
 import '../../data/sources/shares_preference/shared_preference.dart';
-import '../routes/route_name.dart';
 import 'api_clients.dart';
 import 'api_end_points.dart';
 
@@ -48,12 +47,12 @@ class AuthInterceptor extends Interceptor {
         );
         await SharedPreferenceData.removeToken();
         await SharedPreferenceData.removeRefreshToken();
-        if (navigatorKey.currentState != null) {
-          navigatorKey.currentState!.pushNamedAndRemoveUntil(
-            RouteName.loginScreen,
-            (route) => false,
-          );
-        }
+        // if (navigatorKey.currentState != null) {
+        //   navigatorKey.currentState!.pushNamedAndRemoveUntil(
+        //     RouteName.loginScreen,
+        //     (route) => false,
+        //   );
+        // }
       }
     }
     return handler.reject(
