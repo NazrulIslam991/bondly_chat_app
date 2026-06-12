@@ -6,7 +6,9 @@ class ColorManager {
   ColorManager._();
 
   // ===== Primary Colors =====
-  static const Color primary = Color(0xFF00136B);
+  static const Color primary = Color(0xFF6C63FF);
+  static const Color background = Color(0xFF0A0E21);
+  static const Color surface = Color(0xFF1D1E33);
   static const Color primaryLight = Color(0xFFFFFFFF);
   static const Color primaryDark = Color(0xFF000000);
 
@@ -93,13 +95,8 @@ class ColorManager {
   static const Color mintAqua = Color(0xFFD3F4EF);
 
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [
-      Color(0xFF795FF4),
-      Color(0xFF8F6CFD),
-      Color(0xFF8E5EF3),
-    ],
+    colors: [Color(0xFF795FF4), Color(0xFF8F6CFD), Color(0xFF8E5EF3)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
-
 }

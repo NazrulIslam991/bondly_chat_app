@@ -1,6 +1,12 @@
+import 'package:bondly/core/resources/constant/color_manager.dart';
+import 'package:bondly/core/routes/route_name.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../core/resources/constant/style_manager.dart';
 import '../../core/resources/themes/app_theme.dart';
+import '../widgets/custom_phone_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController = TextEditingController();
   String _selectedCountryCode = "+880";
+  String _selectedCountryName = "Bangladesh";
 
   @override
   void dispose() {
@@ -22,138 +29,129 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Your Phone',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
-              const Text(
-                'Please confirm your country code and enter your phone number.',
-                style: TextStyle(
-                  color: AppTheme.textSecondary,
-                  fontSize: 16,
-                  height: 1.5,
-                ),
+              SizedBox(height: 40.h),
+              Text(
+                'Enter your phone number',
+                style: getSemiBoldStyle28_600(color: ColorManager.whiteColor),
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: 10.h),
 
-              // Country Picker Placeholder (WhatsApp / Telegram style)
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: AppTheme.primary, width: 1.5),
-                  ),
-                ),
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: const Text(
-                    'Bangladesh',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  trailing: const Icon(
-                    Icons.arrow_drop_down,
-                    color: AppTheme.primary,
-                  ),
-                  onTap: () {
-                    // কান্ট্রি পিকার শিট বা ডায়ালগ ওপেন করার জন্য
-                  },
-                ),
+              Text(
+                'Bondly will send an SMS message to verify your phone number. Enter your country code and phone number.',
+                style: getRegularStyle14_400(color: ColorManager.gray),
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 40.h),
 
-              // Phone Number Input Row
-              Row(
-                children: [
-                  // Country Code field
-                  Container(
-                    width: 70,
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: AppTheme.primary, width: 1.5),
-                      ),
-                    ),
-                    child: TextField(
-                      readOnly: true,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: _selectedCountryCode,
-                        border: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
+              // Country Picker Line
+              countryFlagAndName(context),
+              SizedBox(height: 16.h),
 
-                  // Main Phone Number Field
-                  Expanded(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: AppTheme.primary,
-                            width: 1.5,
-                          ),
-                        ),
-                      ),
-                      child: TextField(
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          letterSpacing: 1.5,
-                        ),
-                        decoration: const InputDecoration(
-                          hintText: '00000-00000',
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(vertical: 8),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              CustomPhoneField(
+                countryCode: _selectedCountryCode,
+                controller: _phoneController,
               ),
+
               const Spacer(),
 
-              // Floating Action Button Style Next Button (Like Telegram)
               Align(
                 alignment: Alignment.centerRight,
                 child: FloatingActionButton(
                   onPressed: () {
-                    if (_phoneController.text.isNotEmpty) {
-                      String fullNumber =
-                          "$_selectedCountryCode${_phoneController.text}";
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => OtpVerificationScreen(phoneNumber: fullNumber),
-                      //   ),
-                      // );
-                    }
+                    Navigator.pushNamed(context, RouteName.otpScreen);
                   },
                   backgroundColor: AppTheme.primary,
-                  child: const Icon(Icons.arrow_forward, color: Colors.white),
+                  child: Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                    size: 24.r,
+                  ),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget countryFlagAndName(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: ColorManager.primary, width: 1),
+        ),
+      ),
+      child: CountryCodePicker(
+        onChanged: (country) {
+          setState(() {
+            _selectedCountryCode = country.dialCode ?? "+880";
+            _selectedCountryName = country.name ?? "Bangladesh";
+          });
+        },
+        initialSelection: 'BD',
+        favorite: const ['BD', 'US', 'IN'],
+        showCountryOnly: true,
+        showOnlyCountryWhenClosed: true,
+        alignLeft: true,
+
+        dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        boxDecoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: const [],
+        ),
+        dialogTextStyle: getMediumStyle14_500(color: Colors.white),
+        searchStyle: getRegularStyle14_400(color: Colors.white),
+
+        searchDecoration: InputDecoration(
+          hintText: 'Search country...',
+          hintStyle: getRegularStyle14_400(color: AppTheme.textSecondary),
+          prefixIcon: const Icon(Icons.search, color: AppTheme.textSecondary),
+          filled: true,
+          fillColor: Colors.white.withOpacity(0.05),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide.none,
+          ),
+        ),
+
+        builder: (CountryCode? countryCode) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.h),
+            child: Row(
+              children: [
+                if (countryCode?.flagUri != null) ...[
+                  Image.asset(
+                    countryCode!.flagUri!,
+                    package: 'country_code_picker',
+                    width: 22.w,
+                  ),
+                  SizedBox(width: 14.w),
+                ],
+                Expanded(
+                  child: Text(
+                    _selectedCountryName,
+                    style: getMediumStyle16_500(color: Colors.white),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_drop_down,
+                  color: AppTheme.primary,
+                  size: 26.r,
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
