@@ -7,6 +7,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case RouteName.loginScreen:
         return MaterialPageRoute(builder: (_) => LoginScreen());
+      case RouteName.otpScreen:
+        return MaterialPageRoute(builder: (_) => OtpVerification());
       default:
         return unDefineRoute();
     }
