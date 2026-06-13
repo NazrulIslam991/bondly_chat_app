@@ -335,7 +335,7 @@ class ChatListScreen extends ConsumerWidget {
       barrierColor: Colors.black,
       transitionDuration: const Duration(milliseconds: 250),
       pageBuilder: (context, animation, secondaryAnimation) {
-        return StoryViewOverlay(user: user);
+        return StoryViewOverlay();
       },
     );
   }

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/resources/constant/style_manager.dart';
 import '../../chat/view/chat_list_screen.dart';
+import '../../storys/view/story_screen.dart';
 import '../viewmodel/navbar_viewmodel.dart';
 
 class NavbarScreen extends ConsumerWidget {
@@ -21,12 +22,7 @@ class NavbarScreen extends ConsumerWidget {
         style: TextStyle(color: Colors.white, fontSize: 20),
       ),
     ),
-    const Center(
-      child: Text(
-        'Stories Screen',
-        style: TextStyle(color: Colors.white, fontSize: 20),
-      ),
-    ),
+    StoryScreen(),
     const Center(
       child: Text(
         'Settings Screen',
