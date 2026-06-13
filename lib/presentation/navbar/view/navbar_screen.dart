@@ -2,22 +2,18 @@ import 'dart:ui';
 
 import 'package:bondly/core/resources/constant/color_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/resources/constant/style_manager.dart';
 import '../../chat/view/chat_list_screen.dart';
+import '../viewmodel/navbar_viewmodel.dart';
 
-class NavbarScreen extends StatefulWidget {
+class NavbarScreen extends ConsumerWidget {
   const NavbarScreen({super.key});
 
-  @override
-  State<NavbarScreen> createState() => _NavbarScreenState();
-}
-
-class _NavbarScreenState extends State<NavbarScreen> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _screens = [
+  /// ************* screen list ********************
+  static final List<Widget> _screens = [
     ChatListScreen(),
     const Center(
       child: Text(
@@ -40,17 +36,19 @@ class _NavbarScreenState extends State<NavbarScreen> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = ref.watch(navbarProvider);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          _screens[_selectedIndex],
+          _screens[selectedIndex],
 
           Positioned(
             left: 20.w,
             right: 20.w,
-            bottom: 24.h,
+            bottom: 14.h,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(28.r),
               child: BackdropFilter(
@@ -59,15 +57,15 @@ class _NavbarScreenState extends State<NavbarScreen> {
                   height: 72.h,
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.04),
+                    color: Colors.white.withAlpha(10),
                     borderRadius: BorderRadius.circular(28.r),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.08),
+                      color: Colors.white.withAlpha(10),
                       width: 1.2,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.4),
+                        color: Colors.black.withAlpha(10),
                         blurRadius: 20,
                         spreadRadius: 2,
                         offset: const Offset(0, 10),
@@ -78,25 +76,33 @@ class _NavbarScreenState extends State<NavbarScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       _buildNavItem(
+                        ref: ref,
                         index: 0,
+                        currentIndex: selectedIndex,
                         icon: Icons.chat_bubble_outline_rounded,
                         activeIcon: Icons.chat_bubble_rounded,
                         label: 'Chats',
                       ),
                       _buildNavItem(
+                        ref: ref,
                         index: 1,
+                        currentIndex: selectedIndex,
                         icon: Icons.groups_outlined,
                         activeIcon: Icons.groups_rounded,
                         label: 'Groups',
                       ),
                       _buildNavItem(
+                        ref: ref,
                         index: 2,
+                        currentIndex: selectedIndex,
                         icon: Icons.camera_outdoor_outlined,
                         activeIcon: Icons.camera_rounded,
                         label: 'Stories',
                       ),
                       _buildNavItem(
+                        ref: ref,
                         index: 3,
+                        currentIndex: selectedIndex,
                         icon: Icons.settings_outlined,
                         activeIcon: Icons.settings_rounded,
                         label: 'Settings',
@@ -113,18 +119,18 @@ class _NavbarScreenState extends State<NavbarScreen> {
   }
 
   Widget _buildNavItem({
+    required WidgetRef ref,
     required int index,
+    required int currentIndex,
     required IconData icon,
     required IconData activeIcon,
     required String label,
   }) {
-    final bool isSelected = _selectedIndex == index;
+    final bool isSelected = currentIndex == index;
 
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _selectedIndex = index;
-        });
+        ref.read(navbarProvider.notifier).updateIndex(index);
       },
       behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
@@ -133,7 +139,7 @@ class _NavbarScreenState extends State<NavbarScreen> {
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: isSelected
-              ? ColorManager.primary.withOpacity(0.12)
+              ? ColorManager.primary.withAlpha(25)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(20.r),
         ),

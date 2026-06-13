@@ -3,6 +3,9 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// ==========================================
+// 1. DATA MODELS
+// ==========================================
 class MessageModel {
   final String text;
   final bool isMe;
@@ -34,7 +37,6 @@ class ChatTileModel {
 // ==========================================
 // 2. STATE MODELS FOR CHAT SCREEN
 // ==========================================
-
 class ChatScreenState {
   final List<MessageModel> messages;
   final bool isTyping;
@@ -52,11 +54,63 @@ class ChatScreenState {
 // ==========================================
 // 3. VIEW MODELS (NOTIFIERS)
 // ==========================================
-
 class ChatViewModel extends Notifier<List<ChatTileModel>> {
   @override
   List<ChatTileModel> build() {
     return [
+      ChatTileModel(
+        name: 'Sharabon Tahsin',
+        lastMessage:
+            'The new responsive UI layout handles tablet screens smoothly.',
+        time: '10:05 AM',
+        unreadCount: 0,
+        isOnline: false,
+        isReadByMe: true,
+        imageUrl:
+            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&q=80',
+      ),
+      ChatTileModel(
+        name: 'Kamrul Hasan',
+        lastMessage: 'Merged the latest MVVM changes into the main branch. 🚀',
+        time: '9:30 AM',
+        unreadCount: 1,
+        isOnline: true,
+        isReadByMe: false,
+        imageUrl:
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80',
+      ),
+      ChatTileModel(
+        name: 'Sazedul Islam',
+        lastMessage:
+            'Let’s hop on a quick call to check the database sync issue.',
+        time: '8:45 AM',
+        unreadCount: 3,
+        isOnline: true,
+        isReadByMe: false,
+        imageUrl:
+            'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&auto=format&fit=crop&q=80',
+      ),
+      ChatTileModel(
+        name: 'Emily Watson',
+        lastMessage: 'The asset package and clean code structure look solid!',
+        time: '8:15 AM',
+        unreadCount: 0,
+        isOnline: false,
+        isReadByMe: true,
+        imageUrl:
+            'https://images.unsplash.com/photo-1554151228-14d9def656e4?w=200&auto=format&fit=crop&q=80',
+      ),
+      ChatTileModel(
+        name: 'Michael Chang',
+        lastMessage:
+            'Ran the benchmark tests; performance is perfectly stable.',
+        time: 'Yesterday',
+        unreadCount: 0,
+        isOnline: true,
+        isReadByMe: true,
+        imageUrl:
+            'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=200&auto=format&fit=crop&q=80',
+      ),
       ChatTileModel(
         name: 'Alex Morgan',
         lastMessage: 'Yeah! The glassmorphism looks clean! 🔥',
@@ -69,7 +123,7 @@ class ChatViewModel extends Notifier<List<ChatTileModel>> {
       ),
       ChatTileModel(
         name: 'Tajimul Islam',
-        lastMessage: 'Bro, repository pattern টা কি দেখব?',
+        lastMessage: 'Bro, should I review the repository pattern?',
         time: '11:15 AM',
         unreadCount: 0,
         isOnline: true,
@@ -89,32 +143,13 @@ class ChatViewModel extends Notifier<List<ChatTileModel>> {
       ),
       ChatTileModel(
         name: 'Arif Ahmed',
-        lastMessage: 'FVM setup ডান, এখন রান হচ্ছে।',
+        lastMessage: 'FVM setup is done, running perfectly now.',
         time: 'Yesterday',
         unreadCount: 5,
         isOnline: true,
         isReadByMe: false,
         imageUrl:
             'https://images.unsplash.com/photo-1628157582853-a796fa650a6a?w=150',
-      ),
-      ChatTileModel(
-        name: 'Kamrul Hasan',
-        lastMessage: 'Meeting at 4:00 PM today.',
-        time: '2 days ago',
-        unreadCount: 0,
-        isOnline: false,
-        isReadByMe: true,
-        imageUrl: null,
-      ),
-      ChatTileModel(
-        name: 'Sazedul Islam',
-        lastMessage: 'UI ডিজাইনটা জোস হয়েছে ভাই!',
-        time: '3 days ago',
-        unreadCount: 0,
-        isOnline: false,
-        isReadByMe: true,
-        imageUrl:
-            'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150',
       ),
     ];
   }
@@ -195,7 +230,7 @@ class MessageViewModel extends Notifier<ChatScreenState> {
     String msg = message.toLowerCase();
     if (msg.contains('hi') || msg.contains('hello') || msg.contains('hey')) {
       return "Hello there! How's your day going?";
-    } else if (msg.contains('kamn acho') || msg.contains('how are you')) {
+    } else if (msg.contains('how are you') || msg.contains('how r u')) {
       return "I'm doing great! Building Bondly is fun 💻. What about you?";
     } else if (msg.contains('ui') || msg.contains('design')) {
       return "Yeah! The glassmorphism and neon borders look super clean!";
@@ -205,10 +240,19 @@ class MessageViewModel extends Notifier<ChatScreenState> {
   }
 }
 
-// ==========================================
-// 4. PROVIDERS
-// ==========================================
+//  Notifier to handle the display visibility state of the Emoji Panel
+class EmojiVisibilityNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
 
+  void show() => state = true;
+  void hide() => state = false;
+  void toggle() => state = !state;
+}
+
+// ==========================================
+// 4. PROVIDERS DEFINITION
+// ==========================================
 final chatProvider = NotifierProvider<ChatViewModel, List<ChatTileModel>>(() {
   return ChatViewModel();
 });
@@ -216,3 +260,10 @@ final chatProvider = NotifierProvider<ChatViewModel, List<ChatTileModel>>(() {
 final messageProvider = NotifierProvider<MessageViewModel, ChatScreenState>(() {
   return MessageViewModel();
 });
+
+// Emoji visibility management provider
+final emojiVisibilityProvider = NotifierProvider<EmojiVisibilityNotifier, bool>(
+  () {
+    return EmojiVisibilityNotifier();
+  },
+);
