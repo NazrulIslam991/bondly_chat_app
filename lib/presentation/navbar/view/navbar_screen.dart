@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/resources/constant/style_manager.dart';
+import '../../ai_chat/view/ai_chat_screen.dart';
 import '../../chat/view/chat_list_screen.dart';
+import '../../setting/view/setting_screen.dart';
 import '../../storys/view/story_screen.dart';
 import '../viewmodel/navbar_viewmodel.dart';
 
@@ -16,19 +18,9 @@ class NavbarScreen extends ConsumerWidget {
   /// ************* screen list ********************
   static final List<Widget> _screens = [
     ChatListScreen(),
-    const Center(
-      child: Text(
-        'Groups Screen',
-        style: TextStyle(color: Colors.white, fontSize: 20),
-      ),
-    ),
+    AIChatScreen(),
     StoryScreen(),
-    const Center(
-      child: Text(
-        'Settings Screen',
-        style: TextStyle(color: Colors.white, fontSize: 20),
-      ),
-    ),
+    SettingScreen(),
   ];
 
   @override
@@ -83,9 +75,9 @@ class NavbarScreen extends ConsumerWidget {
                         ref: ref,
                         index: 1,
                         currentIndex: selectedIndex,
-                        icon: Icons.groups_outlined,
-                        activeIcon: Icons.groups_rounded,
-                        label: 'Groups',
+                        icon: Icons.auto_awesome_outlined,
+                        activeIcon: Icons.auto_awesome_rounded,
+                        label: 'AI',
                       ),
                       _buildNavItem(
                         ref: ref,

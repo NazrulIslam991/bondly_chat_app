@@ -26,6 +26,7 @@ dependencies:
   path_provider: ^2.1.2
   country_code_picker: ^3.4.1
   emoji_picker_flutter: ^4.4.0
+  google_generative_ai: ^0.4.7
 
 dev_dependencies:
   flutter_test:
